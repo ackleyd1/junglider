@@ -6,12 +6,12 @@
 #include <GL/glut.h>
 #include "utils.h"
 
-#define WIDTH 650
-#define HEIGHT 800
+#define WIDTH 700
+#define HEIGHT 500
 #define WINDOW_TITLE "Junglider"
 #define VS_FILENAME "assets/shaders/test_vs.glsl"
 #define FS_FILENAME "assets/shaders/test_fs.glsl"
-#define BMP_FILENAME "assets/bmps/portrait.bmp"
+#define BMP_FILENAME "assets/bmps/logo2.bmp"
 
 GLuint shader_program;
 GLuint idx = 0;
@@ -76,16 +76,16 @@ void display() {
     glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &textureID);
 
-    unsigned char* raster = loadBitmap(BMP_FILENAME, WIDTH, HEIGHT);
+    unsigned char* raster = loadBitmap(BMP_FILENAME, WIDTH, HEIGHT, 4);
 
     glBindTexture(GL_TEXTURE_2D, textureID);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 2);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     
     // bitmap format is BGR
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
-         WIDTH, HEIGHT, 0, GL_BGR, GL_UNSIGNED_BYTE, raster);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+         WIDTH, HEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, raster);
 
     free(raster);
 

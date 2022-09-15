@@ -1,6 +1,6 @@
 #include "utils.h"
 
-unsigned char* loadBitmap(const char filename[], int width, int height) {
+unsigned char* loadBitmap(const char filename[], int width, int height, int depth) {
     FILE* fd = fopen(filename, "rb");
     if (fd == NULL) {
         // TODO: destroy shader objects before exit
@@ -9,10 +9,10 @@ unsigned char* loadBitmap(const char filename[], int width, int height) {
 
     // bmp images are stored upside down
     // using pointer arithmetic to flip it back up
-    unsigned char * raster = (unsigned char *) malloc(width * height * 3);
-    fseek(fd, 54, 0); // bitmap header is 54 bytes
-    for (int i = height-1; i >= 0; i--) {
-        fread(raster + i * width * 3, width * 3, 1, fd);
+    unsigned char * raster = (unsigned char *) malloc(width * height * depth);
+    fseek(fd, 138, 0); // bitmap header is 54 bytes
+    for (int row = height-1; row >= 0; row--) {
+        fread(raster + row * width * depth, width * depth, 1, fd);
     }
     fclose(fd);
 
